@@ -28,7 +28,7 @@ This project provides a simple REST API bridge between [Music Assistant](https:/
    PORT=8080 npm start
    ```
 
-### Running with Docker
+### Building and Running with Docker
 
 1. **Build the image:**
    ```sh
@@ -43,6 +43,28 @@ This project provides a simple REST API bridge between [Music Assistant](https:/
    ```sh
    docker run --rm -it -e PORT=8080 -p 8080:8080 music-assistant-alexa-api
    ```
+
+### Using GitHub Container Registry (GHCR) and Docker Run
+
+1. **Pull the image from GitHub Container Registry (GHCR):**
+    ```sh
+    docker pull ghcr.io/alams154/music-assistant-alexa-api:latest
+    ```
+
+2. **Run the container:**
+    ```sh
+    docker run --rm -it -p 3000:3000 ghcr.io/alams154/music-assistant-alexa-api:latest
+    ```
+
+### Using GitHub Container Registry (GHCR) and Docker Compose
+
+```yaml
+services:
+    music-assistant-alexa-api:
+        image: ghcr.io/alams154/music-assistant-alexa-api:latest
+        ports:
+            - "3000:3000"
+```
 
 ## API
 
