@@ -3,6 +3,12 @@ name: Build and Push Docker image to GHCR
 on:
   push:
     branches: [ master ]
+    paths:
+      - 'Dockerfile'
+      - '.github/workflows/docker-ghcr.yml'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'server.js'
   workflow_dispatch:
 
 jobs:
