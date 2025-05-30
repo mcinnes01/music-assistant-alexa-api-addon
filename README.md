@@ -37,11 +37,11 @@ This project provides a simple REST API bridge between [Music Assistant](https:/
 
 2. **Run the container:**
    ```sh
-   docker run --rm -it -p 3000:3000 music-assistant-alexa-api
+   docker run --rm -d -p 3000:3000 music-assistant-alexa-api
    ```
    You can override the port with:
    ```sh
-   docker run --rm -it -e PORT=8080 -p 8080:8080 music-assistant-alexa-api
+   docker run --rm -d -e PORT=8080 -p 8080:8080 music-assistant-alexa-api
    ```
 
 ### Using GitHub Container Registry (GHCR) and Docker Run
@@ -53,7 +53,7 @@ This project provides a simple REST API bridge between [Music Assistant](https:/
 
 2. **Run the container:**
     ```sh
-    docker run --rm -it -p 3000:3000 ghcr.io/alams154/music-assistant-alexa-api:latest
+    docker run --rm -d -p 3000:3000 ghcr.io/alams154/music-assistant-alexa-api:latest
     ```
 
 ### Using GitHub Container Registry (GHCR) and Docker Compose
