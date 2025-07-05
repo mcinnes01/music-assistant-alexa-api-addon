@@ -39,20 +39,20 @@ if (USERNAME !== undefined && PASSWORD !== undefined) {
   });
 }
 
-// POST endpoint for Music Assistant to push URL
+// POST endpoint for Music Assistant to push URL and metadata
 app.post('/ma/push-url', (req, res) => {
-  const { streamUrl } = req.body;
+  const { streamUrl, title, artist, album, imageUrl } = req.body;
 
   if (!streamUrl) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
-  obj = { streamUrl };
-  console.log('Received URL:', streamUrl);
+  obj = { streamUrl, title, artist, album, imageUrl };
+  console.log('Received:', obj);
   res.json({ status: 'ok' });
 });
 
-// GET endpoint for Alexa skill to fetch latest URL
+// GET endpoint for Alexa skill to fetch latest URL and metadata
 app.get('/ma/latest-url', (req, res) => {
   if (!obj) {
     return res.status(404).json({ error: 'No URL available' });
@@ -60,6 +60,10 @@ app.get('/ma/latest-url', (req, res) => {
 
   res.json({
     streamUrl: obj.streamUrl,
+    title: obj.title,
+    artist: obj.artist,
+    album: obj.album,
+    imageUrl: obj.imageUrl,
   });
 });
 
