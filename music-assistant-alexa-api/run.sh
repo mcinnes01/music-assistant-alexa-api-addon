@@ -2,23 +2,27 @@
 
 bashio::log.info "Starting Music Assistant Alexa API Addon..."
 
-# Get configuration
+# Get configuration from Home Assistant addon options
 USERNAME=$(bashio::config 'username')
 PASSWORD=$(bashio::config 'password')
 PORT=$(bashio::config 'port')
 
-# Set environment variables if provided
+# Set environment variables for the application
 if bashio::config.has_value 'username'; then
-    export API_USERNAME="$USERNAME"
+    export USERNAME="$USERNAME"
+    bashio::log.info "Authentication enabled with username: $USERNAME"
 fi
 
 if bashio::config.has_value 'password'; then
-    export API_PASSWORD="$PASSWORD"
+    export PASSWORD="$PASSWORD"
 fi
 
-export API_PORT="$PORT"
+export PORT="$PORT"
 
 bashio::log.info "API will be available on port $PORT"
 
+# Change to app directory
+cd /app
+
 # Start the application
-exec node /app/server.js
+exec node server.js

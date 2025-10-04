@@ -6,8 +6,21 @@ RUN apk add --no-cache \
     nodejs \
     npm
 
+# Create app directory
+WORKDIR /app
+
+# Copy package files first for better caching
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install --production
+
 # Copy application files
+COPY *.js ./
 COPY run.sh /
 RUN chmod a+x /run.sh
+
+# Expose port
+EXPOSE 3000
 
 CMD [ "/run.sh" ]
