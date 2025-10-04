@@ -2,7 +2,7 @@ name: Music Assistant Alexa API Addon
 version: "1.0.0"
 slug: music_assistant_alexa_api
 description: "API bridge between Music Assistant and Alexa skill"
-url: "https://github.com/mcinnes01/music-assistant-alexa-api"
+url: "https://github.com/mcinnes01/music-assistant-alexa-api-addon"
 arch:
   - armhf
   - armv7
@@ -24,4 +24,3 @@ schema:
   username: str?
   password: str?
   port: port
-image: "ghcr.io/alams154/music-assistant-alexa-api:latest"
