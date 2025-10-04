@@ -1,130 +1,50 @@
-# Music Assistant Alexa API
+# Music Assistant Alexa API - Home Assistant Add-on Repository
 
-This project provides a simple REST API bridge between [Music Assistant](https://github.com/music-assistant) and an Alexa skill. It allows Music Assistant to push a stream URL, which can then be fetched by an Alexa skill.
+[![Open your Home Assistant instance and show the add add-on repository dialog with this repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fmcinnes01%2Fmusic-assistant-alexa-api)
 
-## Features
+This repository provides a Home Assistant add-on for the Music Assistant Alexa API - a REST API bridge between [Music Assistant](https://github.com/music-assistant) and an Alexa skill.
 
-- **POST /ma/push-url**  
-  Accepts a JSON payload with a `streamUrl` to store the latest stream URL.
+## Installation
 
-- **GET /ma/latest-url**  
-  Returns the most recently pushed `streamUrl` for Alexa to consume.
+1. **Add this repository to Home Assistant:**
+   - Click the badge above, or
+   - Navigate to **Supervisor** > **Add-on Store** > **⋮** > **Repositories**
+   - Add: `https://github.com/mcinnes01/music-assistant-alexa-api`
 
-- **Basic Auth**  
-  Basic authentication when USERNAME and PASSWORD environment variables are provided. This can also be accomplished with a reverse proxy instead.
+2. **Install the add-on:**
+   - Find "Music Assistant Alexa API" in the add-on store
+   - Click **Install**
+
+3. **Configure and start:**
+   - Set username/password for authentication (optional but recommended)
+   - Start the add-on
+
+## Configuration
+
+```yaml
+username: "admin"           # Optional: Username for basic auth
+password: "secure_password" # Optional: Password for basic auth  
+port: 3000                 # Port the API will listen on
+```
 
 ## Usage
 
-### Running Locally
+The add-on exposes two API endpoints:
 
-1. **Install dependencies:**
+- **POST `/ma/push-url`** - Music Assistant pushes stream URLs here
+- **GET `/ma/latest-url`** - Alexa skill fetches URLs from here
 
-   ```sh
-   npm install
-   ```
+## Network Access
 
-2. **Start the server:**
+The API runs on port 3000 and needs to be publicly accessible for Alexa. Use NGINX Proxy Manager add-on:
 
-   ```sh
-   npm start
-   ```
+1. Install NGINX Proxy Manager add-on
+2. Create proxy host pointing to `homeassistant:3000`
+3. Configure your domain and SSL certificate
 
-   By default, the server listens on port `3000`. You can override this with the `PORT` environment variable:
+## Support
 
-   ```sh
-   PORT=8080 npm start
-   ```
-
-   By default, the server is available without authentication. As this is insecure because the api must be publicly available. You can add basic authentication with the `USERNAME` and `PASSWORD` environment variables:
-
-   ```sh
-   USERNAME=admin PASSWORD=test npm start
-   ```
-
-### Building and Running with Docker
-
-1. **Build the image:**
-
-   ```sh
-   docker build -t music-assistant-alexa-api .
-   ```
-
-2. **Run the container:**
-
-   ```sh
-   docker run --rm -d -p 3000:3000 music-assistant-alexa-api
-   ```
-
-   You can provide the environment variables like this:
-
-   ```sh
-   docker run --rm -d -e PORT=8080 -e USERNAME=admin -e PASSWORD=test -p 8080:8080 music-assistant-alexa-api
-   ```
-
-### Using GitHub Container Registry (GHCR) and Docker Run
-
-1. **Pull the image from GitHub Container Registry (GHCR):**
-
-    ```sh
-    docker pull ghcr.io/alams154/music-assistant-alexa-api:latest
-    ```
-
-2. **Run the container:**
-
-    ```sh
-    docker run --rm -d -p 3000:3000 -e USERNAME=admin -e PASSWORD=test ghcr.io/alams154/music-assistant-alexa-api:latest
-    ```
-
-### Using GitHub Container Registry (GHCR) and Docker Compose
-
-```yaml
-services:
-  music-assistant-alexa-api:
-    image: ghcr.io/alams154/music-assistant-alexa-api:latest
-    ports:
-      - "3000:3000"
-    environment:
-      - USERNAME=admin
-      - PASSWORD=test
-```
-
-## API
-
-Returns 401 Unauthorized when the authentication environment variables are provided and the requests does not provide  correct credentials.
-
-### POST `/ma/push-url`
-
-**Body:**
-
-```json
-{
-  "streamUrl": "https://example.com/stream.mp3"
-}
-```
-
-**Response:**
-
-```json
-{ "status": "ok" }
-```
-
-### GET `/ma/latest-url`
-
-**Response:**
-
-```json
-{
-  "streamUrl": "https://example.com/stream.mp3"
-}
-```
-
-Returns `404` if no URL has been pushed yet.
-
-## Files
-
-- `server.js` — Express server with the API endpoints.
-- `Dockerfile` — For containerizing the app.
-- `package.json` — Project metadata and dependencies.
+For issues and feature requests, please use the [GitHub Issues](https://github.com/mcinnes01/music-assistant-alexa-api/issues).
 
 ## License
 
